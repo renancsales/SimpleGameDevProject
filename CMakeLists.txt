@@ -33,7 +33,9 @@ add_subdirectory(externals/rlimgui)
 # define MY_SOURCES to be a list if all source files for my project
 file(GLOB_RECURSE MY_SOURCES CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
 
-add_executable("${CMAKE_PROJECT_NAME}")
+add_executable("${CMAKE_PROJECT_NAME}"
+        src/gameLayer/gameMain.h
+        src/gameLayer/gameMain.cpp)
 
 set_property(TARGET "${CMAKE_PROJECT_NAME}" PROPERTY CXX_STANDARD 20)
 
@@ -63,7 +65,8 @@ elseif (APPLE OR UNIX)
     endif ()
 endif ()
 
-target_include_directories(game PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/src/")
+target_include_directories(game PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/src/gameLayer")
+target_include_directories(game PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/src/platform")
 
 # Link raylib library statically
 target_link_libraries("${CMAKE_PROJECT_NAME}" PRIVATE raylib_static imgui rlimgui)
