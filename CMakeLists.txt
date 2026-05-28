@@ -34,8 +34,8 @@ add_subdirectory(externals/rlimgui)
 file(GLOB_RECURSE MY_SOURCES CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
 
 add_executable("${CMAKE_PROJECT_NAME}"
-        src/gameLayer/gameMain.h
-        src/gameLayer/gameMain.cpp)
+        src/gameLayer/game.h
+        src/gameLayer/game.cpp)
 
 set_property(TARGET "${CMAKE_PROJECT_NAME}" PROPERTY CXX_STANDARD 20)
 

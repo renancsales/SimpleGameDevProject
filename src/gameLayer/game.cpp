@@ -1,0 +1,151 @@
+//
+// Created by Renan Costa Sales on 27/05/26.
+//
+#include <raylib.h>
+#include "game.h"
+#include <raylib.h>
+
+#include <imgui.h>
+#include <rlImGui.h>
+
+
+Game::Game(std::string windowName, uint32_t width, uint32_t height)
+    : m_windowName(windowName), m_width(width), m_height(height)
+{
+    SetConfigFlags(FLAG_WINDOW_RESIZABLE);
+    InitWindow(width, height, windowName.c_str());
+    SetExitKey(KEY_NULL); // Disable Esc from closing window
+    SetTargetFPS(30);
+
+    // Initialize ImGui
+    rlImGuiSetup(true);
+    ImGuiIO& io = ImGui::GetIO();
+    //io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable keyboard controls
+    //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad; // enable gamepad controls
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable; // enable docking
+    io.FontGlobalScale = 1.5f;
+
+}
+
+Game::~Game()
+{
+
+}
+
+void Game::Run()
+{
+
+    if (!initGame())
+    {
+        return;
+    }
+
+    while (!WindowShouldClose())
+    {
+        BeginDrawing();
+        ClearBackground(BLACK);
+        // Rl Imgui
+        rlImGuiBegin();
+        ImGui::PushStyleColor(ImGuiCol_WindowBg, {});
+        ImGui::PushStyleColor(ImGuiCol_DockingEmptyBg,{});
+        ImGui::DockSpaceOverViewport(0,ImGui::GetMainViewport());
+        ImGui::PopStyleColor(2);
+
+        // Game update
+        if (!updateGame())
+        {
+            closeGame();
+        }
+
+        rlImGuiEnd();
+        EndDrawing();
+    }
+
+}
+
+bool Game::initGame()
+{
+    m_GameData = {};
+    return true;
+}
+
+bool Game::updateGame()
+{
+    float deltaTime = GetFrameTime();
+    if (deltaTime > 1.0f/5)
+        deltaTime = 1.0f/5.0f;
+
+    if (IsKeyDown(KEY_A))
+    {
+        m_GameData.positionX -=200*deltaTime;
+    }
+    if (IsKeyDown(KEY_D))
+    {
+        m_GameData.positionX += 200*deltaTime;
+    }
+    if (IsKeyDown(KEY_S))
+    {
+        m_GameData.positionY +=200*deltaTime;
+    }
+    if (IsKeyDown(KEY_W))
+    {
+        m_GameData.positionY -= 200*deltaTime;
+    }
+
+    DrawRectangle(m_GameData.positionX, m_GameData.positionY, 50, 50, WHITE);
+    return true;
+}
+
+void Game::closeGame()
+{
+    CloseWindow();
+    rlImGuiShutdown();
+}
+
+
+/*
+struct GameData
+{
+    float positionX = 0.0;
+    float positionY = 0.0;
+} gameData;
+
+
+bool initGame()
+{
+    return true;
+}
+
+bool updateGame()
+{
+    float deltaTime = GetFrameTime();
+    if (deltaTime > 1.0f/5)
+        deltaTime = 1.0f/5.0f;
+
+    if (IsKeyDown(KEY_A))
+    {
+        gameData.positionX -=200*deltaTime;
+    }
+    if (IsKeyDown(KEY_D))
+    {
+        gameData.positionX += 200*deltaTime;
+    }
+    if (IsKeyDown(KEY_S))
+    {
+        gameData.positionY +=200*deltaTime;
+    }
+    if (IsKeyDown(KEY_W))
+    {
+        gameData.positionY -= 200*deltaTime;
+    }
+
+    DrawRectangle(gameData.positionX, gameData.positionY, 50, 50, WHITE);
+
+    return true;
+}
+
+void closeGame()
+{
+    return;
+}
+*/
