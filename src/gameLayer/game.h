@@ -14,6 +14,7 @@ struct GameData
     float positionY = 0.0;
 
     GameMap gameMap;
+    Camera2D camera;
 } ;
 
 struct FrameData

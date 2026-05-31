@@ -44,6 +44,7 @@ void Game::Run()
     {
         BeginDrawing();
         ClearBackground({75,75,150,255});
+
         // Rl Imgui
         rlImGuiBegin();
         ImGui::PushStyleColor(ImGuiCol_WindowBg, {});
@@ -77,6 +78,11 @@ bool Game::initGame()
 
     // Load textures
     m_assetManager.addTexture("dirt", RESOURCES_PATH "dirt.png");
+
+    m_GameData.camera.target = {0.f, 0.f};
+    m_GameData.camera.rotation = 0.0f;
+    m_GameData.camera.zoom = 100.0f;
+
     return true;
 }
 
@@ -85,6 +91,15 @@ bool Game::updateGame()
     float deltaTime = GetFrameTime();
     if (deltaTime > 1.0f/5)
         deltaTime = 1.0f/5.0f;
+    m_GameData.camera.offset = {GetScreenWidth()/2.0f, GetScreenHeight()/2.0f};
+
+    BeginMode2D(m_GameData.camera);
+
+    // Camera movement
+    if (IsKeyDown(KEY_LEFT)) m_GameData.camera.target.x -= 7.0f*deltaTime;
+    if (IsKeyDown(KEY_RIGHT)) m_GameData.camera.target.x += 7.0f*deltaTime;
+    if (IsKeyDown(KEY_UP)) m_GameData.camera.target.y -= 7.0f*deltaTime;
+    if (IsKeyDown(KEY_DOWN)) m_GameData.camera.target.y += 7.0f*deltaTime;
 
     if (IsKeyDown(KEY_A))
     {
@@ -116,7 +131,7 @@ bool Game::updateGame()
             auto &b = m_GameData.gameMap.getBlockUnsafe(i,j);
             if (b.type != Block::air)
             {
-                float size = 32;
+                float size = 1.0f;
                 float posX = i*size;
                 float posY = j*size;
 
@@ -130,6 +145,7 @@ bool Game::updateGame()
         }
     }
 
+    EndMode2D();
     return true;
 }
 
