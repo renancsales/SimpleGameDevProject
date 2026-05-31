@@ -4,11 +4,16 @@
 #pragma once
 
 #include <iostream>
+#include <raylib.h>
+#include <AssetManager.h>
+#include <GameMap.h>
 
 struct GameData
 {
     float positionX = 0.0;
     float positionY = 0.0;
+
+    GameMap gameMap;
 } ;
 
 struct FrameData
@@ -37,6 +42,7 @@ private:
     uint32_t m_width; uint32_t m_height;
 
     GameData m_GameData;
+    AssetManager  m_assetManager;
 };
 
 /*

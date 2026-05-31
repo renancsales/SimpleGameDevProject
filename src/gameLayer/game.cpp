@@ -43,7 +43,7 @@ void Game::Run()
     while (!WindowShouldClose())
     {
         BeginDrawing();
-        ClearBackground(BLACK);
+        ClearBackground({75,75,150,255});
         // Rl Imgui
         rlImGuiBegin();
         ImGui::PushStyleColor(ImGuiCol_WindowBg, {});
@@ -65,7 +65,18 @@ void Game::Run()
 
 bool Game::initGame()
 {
-    m_GameData = {};
+    //m_GameData = {};
+    //m_GameData.dirtTexture = LoadTexture(RESOURCES_PATH "dirt.png" );
+
+    m_GameData.gameMap.CreateMap(30,10);
+    m_GameData.gameMap.getBlockUnsafe(0,0).type = Block::dirt;
+    m_GameData.gameMap.getBlockUnsafe(1,1).type = Block::dirt;
+    m_GameData.gameMap.getBlockUnsafe(2,2).type = Block::dirt;
+    m_GameData.gameMap.getBlockUnsafe(3,3).type = Block::dirt;
+    m_GameData.gameMap.getBlockUnsafe(4,4).type = Block::dirt;
+
+    // Load textures
+    m_assetManager.addTexture("dirt", RESOURCES_PATH "dirt.png");
     return true;
 }
 
@@ -92,7 +103,33 @@ bool Game::updateGame()
         m_GameData.positionY -= 200*deltaTime;
     }
 
-    DrawRectangle(m_GameData.positionX, m_GameData.positionY, 50, 50, WHITE);
+    //DrawRectangle(m_GameData.positionX, m_GameData.positionY, 50, 50, WHITE);
+    auto texture = m_assetManager.getTexture("dirt");
+    /*DrawTexturePro(texture,
+        {0,0,(float)texture.width,(float)texture.height},
+        {m_GameData.positionX,m_GameData.positionY,100,100},{},0, WHITE);*/
+
+    for (int j = 0; j < m_GameData.gameMap.getHeight(); j++)
+    {
+        for (int i = 0; i < m_GameData.gameMap.getWidth(); i++)
+        {
+            auto &b = m_GameData.gameMap.getBlockUnsafe(i,j);
+            if (b.type != Block::air)
+            {
+                float size = 32;
+                float posX = i*size;
+                float posY = j*size;
+
+                DrawTexturePro(m_assetManager.getTexture("dirt"),
+                    Rectangle{0.f, 0.f, (float)m_assetManager.getTexture("dirt").width, (float)m_assetManager.getTexture("dirt").height}, // source
+                    {posX, posY, size, size}, //dest
+                    {0.0f, 0.0f}, // origin (top-left corner)
+                    0.0f, // rotation
+                    WHITE); // ting
+            }
+        }
+    }
+
     return true;
 }
 

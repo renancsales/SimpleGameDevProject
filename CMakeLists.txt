@@ -35,7 +35,11 @@ file(GLOB_RECURSE MY_SOURCES CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/src/
 
 add_executable("${CMAKE_PROJECT_NAME}"
         src/gameLayer/game.h
-        src/gameLayer/game.cpp)
+        src/gameLayer/game.cpp
+        src/gameLayer/AssetManager.h
+        src/gameLayer/Block.h
+        src/gameLayer/GameMap.h
+        src/gameLayer/GameMap.cpp)
 
 set_property(TARGET "${CMAKE_PROJECT_NAME}" PROPERTY CXX_STANDARD 20)
 
