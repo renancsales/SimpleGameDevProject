@@ -39,7 +39,8 @@ add_executable("${CMAKE_PROJECT_NAME}"
         src/gameLayer/AssetManager.h
         src/gameLayer/Block.h
         src/gameLayer/GameMap.h
-        src/gameLayer/GameMap.cpp)
+        src/gameLayer/GameMap.cpp
+        src/gameLayer/Utils.h)
 
 set_property(TARGET "${CMAKE_PROJECT_NAME}" PROPERTY CXX_STANDARD 20)
 

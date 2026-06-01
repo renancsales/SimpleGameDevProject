@@ -8,6 +8,8 @@
 #include <imgui.h>
 #include <rlImGui.h>
 
+#include <Utils.h>
+
 
 Game::Game(std::string windowName, uint32_t width, uint32_t height)
     : m_windowName(windowName), m_width(width), m_height(height)
@@ -71,13 +73,14 @@ bool Game::initGame()
 
     m_GameData.gameMap.CreateMap(30,10);
     m_GameData.gameMap.getBlockUnsafe(0,0).type = Block::dirt;
-    m_GameData.gameMap.getBlockUnsafe(1,1).type = Block::dirt;
-    m_GameData.gameMap.getBlockUnsafe(2,2).type = Block::dirt;
-    m_GameData.gameMap.getBlockUnsafe(3,3).type = Block::dirt;
-    m_GameData.gameMap.getBlockUnsafe(4,4).type = Block::dirt;
+    m_GameData.gameMap.getBlockUnsafe(1,1).type = Block::grass;
+    m_GameData.gameMap.getBlockUnsafe(2,2).type = Block::goldBlock;
+    m_GameData.gameMap.getBlockUnsafe(3,3).type = Block::woodLog;
+    m_GameData.gameMap.getBlockUnsafe(4,4).type = Block::platform;
 
     // Load textures
-    m_assetManager.addTexture("dirt", RESOURCES_PATH "dirt.png");
+    //m_assetManager.addTexture("dirt", RESOURCES_PATH "dirt.png");
+    m_assetManager.addTexture("textures", RESOURCES_PATH "textures.png");
 
     m_GameData.camera.target = {0.f, 0.f};
     m_GameData.camera.rotation = 0.0f;
@@ -135,8 +138,8 @@ bool Game::updateGame()
                 float posX = i*size;
                 float posY = j*size;
 
-                DrawTexturePro(m_assetManager.getTexture("dirt"),
-                    Rectangle{0.f, 0.f, (float)m_assetManager.getTexture("dirt").width, (float)m_assetManager.getTexture("dirt").height}, // source
+                DrawTexturePro(m_assetManager.getTexture("textures"),
+                    getTextureAtlas(b.type, 0, 32, 32), // source
                     {posX, posY, size, size}, //dest
                     {0.0f, 0.0f}, // origin (top-left corner)
                     0.0f, // rotation
