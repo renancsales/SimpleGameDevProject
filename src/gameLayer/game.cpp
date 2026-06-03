@@ -111,6 +111,7 @@ bool Game::updateGame()
 
     BeginMode2D(m_GameData.camera);
 
+    // Padding
     Vector2 topLeftView = GetScreenToWorld2D({0,0}, m_GameData.camera);
     Vector2 bottoRightView = GetScreenToWorld2D({(float)GetScreenWidth(), (float)GetScreenHeight()}, m_GameData.camera);
 
