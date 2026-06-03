@@ -13,6 +13,9 @@ struct GameData
     float positionX = 0.0;
     float positionY = 0.0;
 
+    int worldSizeX = 2000;
+    int worldSizeY = 1000;
+
     GameMap gameMap;
     Camera2D camera;
 } ;
